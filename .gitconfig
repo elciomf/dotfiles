@@ -1,0 +1,8 @@
+[user]
+	name = Élcio M. Fernandes
+	email = elciomf@proton.me
+[core]
+	editor = code --wait
+	autocrlf = input
+[init]
+	defaultBranch = main
