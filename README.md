@@ -1,51 +1,52 @@
-# 🗂️ dotfiles
+# dotfiles
 
-Configurações de ambiente de desenvolvimento no WSL2 com Debian.
+Development environment configuration for WSL2 running Debian.
 
 ---
 
-## 📦 O que está aqui
+## Contents
 
-| Arquivo | O que faz |
+| File | Description |
 |---|---|
-| `.bashrc` | Configurações do terminal (aliases, variáveis de ambiente, nvm, pyenv) |
-| `.gitconfig` | Configurações globais do Git |
-| `install.sh` | Script que configura tudo automaticamente numa máquina nova |
+| `.bashrc` | Shell configuration (aliases, environment variables, nvm, pyenv) |
+| `.gitconfig` | Global Git configuration |
+| `install.sh` | Bootstrap script for setting up a new machine |
 
 ---
 
-## 🚀 Instalação numa máquina nova
+## Installation
 
-> Pré-requisitos: WSL2 com Debian instalado e Docker configurado.
+**Prerequisites:** WSL2 with Debian and Docker already configured.
 
 ```bash
 git clone git@github.com:elciomf/dotfiles.git
 cd dotfiles && ./install.sh
 ```
 
-O script vai:
-- Criar os symlinks dos arquivos de configuração
-- Instalar o **nvm** (gerenciador de versões do Node.js)
-- Instalar o **pyenv** (gerenciador de versões do Python)
+The script will:
+
+- Create symlinks for all configuration files
+- Install **nvm** (Node.js version manager)
+- Install **pyenv** (Python version manager)
 
 ---
 
-## 🔄 Como atualizar os dotfiles
+## Keeping dotfiles up to date
 
-Como os arquivos usam **symlinks**, qualquer edição no `.bashrc` ou `.gitconfig` já reflete automaticamente na pasta `~/dotfiles`. Basta commitar:
+All configuration files are managed via **symlinks**, so any changes made to `.bashrc` or `.gitconfig` are automatically reflected in `~/dotfiles`. To persist changes:
 
 ```bash
 cd ~/dotfiles
 git add .
-git commit -m "Descreve o que mudou"
+git commit -m "Description of changes"
 git push
 ```
 
 ---
 
-## 🐳 Docker
+## Docker
 
-Docker não inicia automaticamente no WSL2. O `.bashrc` já possui um auto-start configurado, mas caso precise iniciar manualmente:
+Docker does not start automatically in WSL2. The `.bashrc` includes an auto-start configuration, but it can also be started manually:
 
 ```bash
 sudo service docker start
@@ -53,17 +54,17 @@ sudo service docker start
 
 ---
 
-## 🟢 Node.js (nvm)
+## Node.js (nvm)
 
 ```bash
-nvm install --lts        # instala a versão LTS mais recente
-nvm install 20           # instala uma versão específica
-nvm use 20               # troca de versão no terminal atual
-nvm alias default 20     # define versão padrão
-nvm ls                   # lista versões instaladas
+nvm install --lts        # install the latest LTS release
+nvm install 20           # install a specific version
+nvm use 20               # switch version in the current session
+nvm alias default 20     # set the default version
+nvm ls                   # list installed versions
 ```
 
-**Por projeto:** cria um `.nvmrc` na raiz com a versão desejada e roda `nvm use`.
+**Per-project version pinning:** create an `.nvmrc` file at the project root and run `nvm use`.
 
 ```bash
 echo "20" > .nvmrc
@@ -72,41 +73,41 @@ nvm use
 
 ---
 
-## 🐍 Python (pyenv)
+## Python (pyenv)
 
 ```bash
-pyenv install 3.13       # instala uma versão específica
-pyenv global 3.13        # define versão padrão global
-pyenv local 3.11         # define versão só para a pasta atual
-pyenv versions           # lista versões instaladas
+pyenv install 3.13       # install a specific version
+pyenv global 3.13        # set the global default version
+pyenv local 3.11         # set a version for the current directory only
+pyenv versions           # list installed versions
 ```
 
-**Por projeto:** o `pyenv local` cria um `.python-version` na raiz da pasta automaticamente.
+Running `pyenv local` automatically creates a `.python-version` file at the project root.
 
 ---
 
-## 🔑 SSH
+## SSH
 
-A chave SSH está em `~/.ssh/id_ed25519` e está configurada no GitHub.
+The SSH key is located at `~/.ssh/id_ed25519` and is registered on GitHub.
 
-Para gerar uma nova chave numa máquina nova:
+To generate a new key on a fresh machine:
 
 ```bash
-ssh-keygen -t ed25519 -C "seu@email.com"
-cat ~/.ssh/id_ed25519.pub  # copia e adiciona no GitHub → Settings → SSH keys
-ssh -T git@github.com      # testa a conexão
+ssh-keygen -t ed25519 -C "your@email.com"
+cat ~/.ssh/id_ed25519.pub  # copy the output and add it to GitHub -> Settings -> SSH keys
+ssh -T git@github.com      # verify the connection
 ```
 
 ---
 
-## 🛠️ Resetar o WSL do zero
+## Resetting WSL from scratch
 
-1. No PowerShell do Windows: `wsl --unregister Debian`
-2. Reinstalar: `wsl --install -d Debian`
-3. Configurar Docker (ver abaixo)
-4. Clonar este repositório e rodar `./install.sh`
+1. From a Windows PowerShell session: `wsl --unregister Debian`
+2. Reinstall the distribution: `wsl --install -d Debian`
+3. Set up Docker (see below)
+4. Clone this repository and run `./install.sh`
 
-### Instalação do Docker no Debian
+### Installing Docker on Debian
 
 ```bash
 sudo apt update
@@ -124,4 +125,4 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 sudo usermod -aG docker $USER
 ```
 
-Reinicia o WSL: `wsl --shutdown` e reabre o terminal.
+Restart WSL after installation: run `wsl --shutdown` and reopen the terminal.
